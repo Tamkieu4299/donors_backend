@@ -11,7 +11,6 @@ class Site(BaseModel):
     name = Column(String, nullable=False)
     longtitude = Column(Integer, default=0, nullable=False)
     latitude =  Column(Float, default=0, nullable=False)
-    map_marker = Column(String, nullable=True)
     city = Column(String, nullable=True)
     street = Column(String, nullable=True)
     

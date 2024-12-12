@@ -8,7 +8,6 @@ class CRUDSite(CRUDBase[Site]):
         self,
         db: Session,
         name: Optional[str] = None,
-        map_marker: Optional[str] = None,
         city: Optional[str] = None,
         street: Optional[str] = None,
         amount_of_donors: Optional[int] = None,
@@ -20,8 +19,6 @@ class CRUDSite(CRUDBase[Site]):
         
         if name:
             query = query.filter(self.model.name.ilike(f"%{name}%"))
-        if map_marker:
-            query = query.filter(self.model.map_marker == map_marker)
         if city:
             query = query.filter(self.model.city.ilike(f"%{city}%"))
         if street:

@@ -3,7 +3,6 @@ from typing import Optional
 
 class SiteAdd(BaseModel):
     name: str
-    map_marker: str = None
     city: str = None
     street: str = None
     longtitude: float = 0
@@ -14,7 +13,6 @@ class SiteAdd(BaseModel):
 
 class SiteUpdate(BaseModel):
     name: Optional[str]
-    map_marker: Optional[str]
     city: Optional[str]
     street: Optional[str]
     longtitude: Optional[float]
@@ -22,7 +20,6 @@ class SiteUpdate(BaseModel):
 
 class SiteFilter(BaseModel):
     name: Optional[str]
-    map_marker: Optional[str]
     city: Optional[str]
     street: Optional[str]
     longtitude: Optional[float] = 0
@@ -37,7 +34,6 @@ class SiteFilter(BaseModel):
 class SiteResponse(BaseModel):
     id: int
     name: str
-    map_marker: str = None
     city: str = None
     street: str = None
     longtitude: float = 0
