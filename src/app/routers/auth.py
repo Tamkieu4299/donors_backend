@@ -15,8 +15,6 @@ from secret import (
     ACCESS_TOKEN_EXPIRE_MINUTES,
     TOKEN_TYPE,
     authenticate_user,
-    authenticate_vendor,
-    authenticate_internal_user,
     create_access_token,
 )
 from sqlalchemy.orm import Session
@@ -77,15 +75,7 @@ def login_for_access_token(
     db: Session = Depends(get_db),
 ):
 
-    auth_function = authenticate_user.get(form_data.login_type)
-    if not auth_function:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Incorrect login type",
-            headers={"WWW-Authenticate": TOKEN_TYPE},
-        )
-
-    user = auth_function(db, form_data.email, form_data.password)
+    user = authenticate_user(db, form_data.email, form_data.password)
 
     if not user:
         logger.error(

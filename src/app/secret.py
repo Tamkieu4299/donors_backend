@@ -49,28 +49,6 @@ def authenticate_user(db: Session, email: str, password: str):
         return False
     return user
 
-
-def authenticate_vendor(db: Session, email: str, password: str):
-    user = crud_vendor.search_vendor_by_email(email, db)
-    if not user:
-        return False
-    if user.is_deleted:
-        return False
-    if not verify_password(password, user.password):
-        return False
-    return user
-
-def authenticate_internal_user(db: Session, email: str, password: str):
-    user = crud_internal_user.search_internal_user_by_email(email, db)
-    if not user:
-        return False
-    if user.is_deleted:
-        return False
-    if not verify_password(password, user.password):
-        return False
-    return user
-
-
 def create_access_token(
     data: dict, expires_delta: Union[timedelta, None] = None
 ):

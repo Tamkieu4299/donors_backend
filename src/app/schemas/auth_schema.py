@@ -73,8 +73,6 @@ class LoginResponse(BaseModel):
     user_name: str
     first_name: str
     last_name: str
-    birthday: date
-    gender: int
     phone: str
     email: str
     token: str
