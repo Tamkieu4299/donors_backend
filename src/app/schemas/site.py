@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
+from schemas.user import UserResponseSchema
 
 class SiteAdd(BaseModel):
     name: str
@@ -41,6 +42,7 @@ class SiteResponse(BaseModel):
     amount_of_donors: int = 0
     amount_of_approved_donors: int = 0
     amount_of_blood: int = 0
+    list_of_donors: List[UserResponseSchema] = []
 
     class Config:
         orm_mode = True

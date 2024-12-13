@@ -45,6 +45,14 @@ class CRUDDonation(CRUDBase[Donation]):
         
         return donation
 
+    def get_by_site_id(self, site_id: int, db: Session):
+        try:
+            result = db.query(Donation).filter(Donation.site_id == site_id).all()
+            return result
+        except Exception as e:
+            logger.error(f"Error fetching: {e}", exc_info=True)
+            raise e
+
     def get_all(self, db: Session):
         try:
             result = db.query(Donation).all()

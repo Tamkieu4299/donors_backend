@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+from datetime import datetime
 from schemas.user import UserResponseSchema
 from schemas.site import SiteResponse
 
@@ -13,7 +13,7 @@ class DonationResponse(BaseModel):
     id: int
     user: UserResponseSchema
     site: SiteResponse
-    created_at: date
+    created_at: datetime
 
     class Config:
         orm_mode = True

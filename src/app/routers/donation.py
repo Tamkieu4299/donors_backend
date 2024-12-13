@@ -36,6 +36,14 @@ async def get_donations(
     donation = donation_crud.get_all(db)
     return Response(content=[DonationResponse.from_orm(i) for i in donation])
 
+@router.get("/search_by_site/{site_id}")
+async def get_site(
+    site_id: int,
+    db: Session = Depends(get_db),
+):
+    donations = donation_crud.get_by_site_id(site_id, db)
+    return Response(content=[DonationResponse.from_orm(i) for i in donations])
+
 @router.put("/approve/{donation_id}", response_model=DonationResponse)
 async def approve_donation(
     donation_id: int,

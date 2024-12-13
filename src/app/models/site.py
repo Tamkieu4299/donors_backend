@@ -19,6 +19,10 @@ class Site(BaseModel):
     @hybrid_property
     def amount_of_donors(self):
         return len(self.donations)
+    
+    @hybrid_property
+    def list_of_donors(self):
+        return [d.user for d in self.donations] if self.donations else []
 
     @hybrid_property
     def amount_of_approved_donors(self):
