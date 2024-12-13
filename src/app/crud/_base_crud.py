@@ -1,6 +1,7 @@
 from typing import Generic, TypeVar
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import Session
+from sqlalchemy import asc, desc
 import logging
 
 ModelType = TypeVar("ModelType", bound=DeclarativeMeta)
@@ -104,9 +105,23 @@ class CRUDBase(Generic[ModelType]):
             db.rollback()
             raise e
 
-    def get_all(self, db: Session, skip: int = 0, limit: int = 10):
+    def get_all(self, db: Session, order_by: str = None, order_direction: str = "asc", skip: int = 0, limit: int = 10,):
         try:
-            return db.query(self.model).all()
+            query = db.query(self.model)
+            
+            # Apply ordering if order_by is provided
+            if order_by:
+                order_column = getattr(self.model, order_by, None)
+                if not order_column:
+                    raise ValueError(f"Invalid order_by column: {order_by}")
+                
+                if order_direction.lower() == "desc":
+                    query = query.order_by(desc(order_column))
+                else:
+                    query = query.order_by(asc(order_column))
+            
+            # Apply skip and limit
+            return query.all()
         except Exception as e:
             logger.error(f"Error fetching all objects: {e}", exc_info=True)
             raise e

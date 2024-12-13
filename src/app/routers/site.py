@@ -53,7 +53,7 @@ async def update_site(
 async def get_sites(
     db: Session = Depends(get_db),
 ):
-    sites = crud_site.get_all(db)
+    sites = crud_site.get_all(db, "created_at", "desc")
     sites_dict_list = [SiteResponse.from_orm(i) for i in sites]
     logger.info(f"Number of sites: {len(sites)}")
     return Response(content=sites_dict_list)
