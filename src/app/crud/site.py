@@ -29,5 +29,5 @@ class CRUDSite(CRUDBase[Site]):
             query = query.filter(self.model.amount_of_blood >= amount_of_blood)
         
         total = query.count()
-        results = query.offset(skip).limit(limit).all()
+        results = query.all()
         return {"total": total, "results": results}

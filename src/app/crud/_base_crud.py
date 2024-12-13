@@ -106,7 +106,7 @@ class CRUDBase(Generic[ModelType]):
 
     def get_all(self, db: Session, skip: int = 0, limit: int = 10):
         try:
-            return db.query(self.model).offset(skip).limit(limit).all()
+            return db.query(self.model).all()
         except Exception as e:
             logger.error(f"Error fetching all objects: {e}", exc_info=True)
             raise e
