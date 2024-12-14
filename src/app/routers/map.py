@@ -8,6 +8,7 @@ from db.database import get_db
 from sqlalchemy.orm import Session
 from sqlalchemy import func, literal
 from models.site import Site
+from app.utils.response import Response
 
 logger = setup_logger(__name__)
 
@@ -35,15 +36,15 @@ def get_nearest_site(user_lat: float, user_lng: float, db: Session = Depends(get
             raise HTTPException(status_code=404, detail="No sites found")
 
         site, distance = nearest_site
-        return {
+        return  Response(content={
             "id": site.id,
             "name": site.name,
             "latitude": site.latitude,
-            "longitude": site.longtitude,
+            "longtitude": site.longtitude,
             "city": site.city,
             "street": site.street,
             "distance_km": distance
-        }
+        })
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
