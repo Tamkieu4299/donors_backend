@@ -22,7 +22,9 @@ donation_crud = CRUDDonation(Donation)
 async def donation(    
     payload: DonationSchema,
     db: Session = Depends(get_db),
-):
+):  
+    if donation_crud.read_by_user_id_and_donation_id(payload.user_id, payload.site_id,db):
+        raise CommonInvalid(detail=f"You have registered for this site")
     donation = await donation_crud.create(payload.dict(), db)
     if donation is None:
         raise CommonInvalid(detail=f"Fail to create donation")
@@ -51,6 +53,24 @@ async def approve_donation(
     db: Session = Depends(get_db),
 ):
     updated_donation = donation_crud.update(donation_id, {"volume_of_blood": volume_of_blood, "has_approved": True}, db)
+    if updated_donation is None:
+        raise CommonInvalid(detail=f"Fail to update donation")
+    return Response(content=DonationResponse.from_orm(updated_donation))
+
+
+@router.put("/approve/{site_id}/{user_id}", response_model=DonationResponse)
+async def approve_donation(
+    site_id: int,
+    user_id: int,
+    volume_of_blood: float,
+    db: Session = Depends(get_db),
+):
+    donation = donation_crud.read_by_user_id_and_donation_id(user_id, site_id,db)
+    if donation is None:
+        raise CommonInvalid(detail=f"You have not register for this site")
+    if donation.get("has_approved"):
+        raise CommonInvalid(detail=f"Your donation has been approved")
+    updated_donation = donation_crud.update(donation.get("id"), {"volume_of_blood": volume_of_blood, "has_approved": True}, db)
     if updated_donation is None:
         raise CommonInvalid(detail=f"Fail to update donation")
     return Response(content=DonationResponse.from_orm(updated_donation))

@@ -22,7 +22,14 @@ class Site(BaseModel):
     
     @hybrid_property
     def list_of_donors(self):
-        return [d.user for d in self.donations] if self.donations else []
+        # return [d.user for d in self.donations] if self.donations else []
+        if not self.donations:
+            return []
+
+        return [
+            {**d.user.__dict__, "has_approved": d.has_approved}
+            for d in self.donations
+        ]
 
     @hybrid_property
     def amount_of_approved_donors(self):
