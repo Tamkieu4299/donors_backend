@@ -24,9 +24,9 @@ class SiteFilter(BaseModel):
     street: Optional[str]
     longtitude: Optional[float] = 0
     latitude: Optional[float] = 0
-    amount_of_donors: Optional[int] = 0
+    amount_of_donors: Optional[int]
     amount_of_approved_donors: Optional[int]
-    amount_of_blood: Optional[int] = 0
+    amount_of_blood: Optional[int]
 
     class Config:
         orm_mode = True

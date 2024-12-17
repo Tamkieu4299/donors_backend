@@ -77,7 +77,6 @@ async def filter_sites(
     result = crud_site.filter_sites(
         db=db,
         name=payload.name,
-        map_marker=payload.map_marker,
         city=payload.city,
         street=payload.street,
         amount_of_donors=payload.amount_of_donors,
@@ -86,4 +85,4 @@ async def filter_sites(
         limit=limit,
     )
     sites_dict_list = [SiteResponse.from_orm(site) for site in result["results"]]
-    return Response(content={"total": result["total"], "data": sites_dict_list})
+    return Response(content=sites_dict_list)
